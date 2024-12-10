@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<sql_report>
+	<query>
+		<sql>
+			select * from kurse where id &gt; :theId1 and id &lt; :theId2 order by anfangs_datum
+		</sql>
+		<params>
+			<param name="theId1" label="Min ID" value="0" type="int" />
+			<param name="theId2" label="Max ID" value="999999" type="int" />
+		</params>
+		<query>
+			<sql>
+				select * from kurs_schueler where kurs_id = :theCourse
+			</sql>
+			<params>
+				<param name="theCourse" source_field="ID" />
+			</params>
+		</query>
+	</query>
+</sql_report>
