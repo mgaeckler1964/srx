@@ -6,7 +6,7 @@
 		Address:		Hofmannsthalweg 14, A-4030 Linz
 		Web:			https://www.gaeckler.at/
 
-		Copyright:		(c) 1988-2024 Martin Gäckler
+		Copyright:		(c) 2009-2026 Martin Gäckler
 
 		This program is free software: you can redistribute it and/or modify  
 		it under the terms of the GNU General Public License as published by  
@@ -15,7 +15,7 @@
 		You should have received a copy of the GNU General Public License 
 		along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-		THIS SOFTWARE IS PROVIDED BY Martin Gäckler, Austria, Linz ``AS IS''
+		THIS SOFTWARE IS PROVIDED BY Martin Gäckler, Linz, Austria ``AS IS''
 		AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
 		TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
 		PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR
@@ -155,97 +155,97 @@ void ParameterGui::createGui(
 )
 {
 	int	top = row*PARAM_LINE_HEIGHT+8;
-	theLabel = new TLabel( scrollBox );
+	m_theLabel = new TLabel( scrollBox );
 
-	theLabel->Parent = scrollBox;
-	theLabel->Caption = (const char *)label;
-	theLabel->Top = top;
-	theLabel->Left = 8;
+	m_theLabel->Parent = scrollBox;
+	m_theLabel->Caption = label.c_str();
+	m_theLabel->Top = top;
+	m_theLabel->Left = 8;
 
 	if( type == "date" )
 	{
-		theDatePicker = new TDateTimePicker( scrollBox );
-		theDatePicker->Parent = scrollBox;
-		theDatePicker->Top = top;
-		theDatePicker->Kind = dtkDate;
-		theDatePicker->Anchors.Clear();
-		theDatePicker->Anchors << akLeft << akTop << akRight;
+		m_theDatePicker = new TDateTimePicker( scrollBox );
+		m_theDatePicker->Parent = scrollBox;
+		m_theDatePicker->Top = top;
+		m_theDatePicker->Kind = dtkDate;
+		m_theDatePicker->Anchors.Clear();
+		m_theDatePicker->Anchors << akLeft << akTop << akRight;
 	}
 	else if( type == "time" )
 	{
-		theTimePicker = new TDateTimePicker( scrollBox );
-		theTimePicker->Parent = scrollBox;
-		theTimePicker->Top = top;
-		theTimePicker->Width =  100;
-		theTimePicker->Kind = dtkTime;
-		theTimePicker->Anchors.Clear();
-		theTimePicker->Anchors << akLeft << akTop;
+		m_theTimePicker = new TDateTimePicker( scrollBox );
+		m_theTimePicker->Parent = scrollBox;
+		m_theTimePicker->Top = top;
+		m_theTimePicker->Width =  100;
+		m_theTimePicker->Kind = dtkTime;
+		m_theTimePicker->Anchors.Clear();
+		m_theTimePicker->Anchors << akLeft << akTop;
 	}
 	else if( type == "date_time" )
 	{
-		theDatePicker = new TDateTimePicker( scrollBox );
-		theDatePicker->Parent = scrollBox;
-		theDatePicker->Top = top;
-		theDatePicker->Kind = dtkDate;
-		theDatePicker->Anchors.Clear();
-		theDatePicker->Anchors << akLeft << akTop << akRight;
+		m_theDatePicker = new TDateTimePicker( scrollBox );
+		m_theDatePicker->Parent = scrollBox;
+		m_theDatePicker->Top = top;
+		m_theDatePicker->Kind = dtkDate;
+		m_theDatePicker->Anchors.Clear();
+		m_theDatePicker->Anchors << akLeft << akTop << akRight;
 
-		theTimePicker = new TDateTimePicker( scrollBox );
-		theTimePicker->Parent = scrollBox;
-		theTimePicker->Top = top;
-		theTimePicker->Width =  100;
-		theTimePicker->Kind = dtkTime;
-		theTimePicker->Anchors.Clear();
-		theTimePicker->Anchors << akRight << akTop;
+		m_theTimePicker = new TDateTimePicker( scrollBox );
+		m_theTimePicker->Parent = scrollBox;
+		m_theTimePicker->Top = top;
+		m_theTimePicker->Width =  100;
+		m_theTimePicker->Kind = dtkTime;
+		m_theTimePicker->Anchors.Clear();
+		m_theTimePicker->Anchors << akRight << akTop;
 	}
 	else if( type == "query" )
 	{
 		ParameterQueryValue		theQueryValue;
 
-		theComboBox = new TComboBox( scrollBox );
-		theComboBox->Parent = scrollBox;
-		theComboBox->Top = top;
-		theComboBox->Anchors.Clear();
-		theComboBox->Anchors << akLeft << akTop << akRight;
-		theComboBox->Style = Stdctrls::csDropDownList;
-		theComboBox->Sorted = false;
+		m_theComboBox = new TComboBox( scrollBox );
+		m_theComboBox->Parent = scrollBox;
+		m_theComboBox->Top = top;
+		m_theComboBox->Anchors.Clear();
+		m_theComboBox->Anchors << akLeft << akTop << akRight;
+		m_theComboBox->Style = Stdctrls::csDropDownList;
+		m_theComboBox->Sorted = false;
 
-		srxViewerForm->QueryParam->SQL->Add( (const char *)query );
+		srxViewerForm->QueryParam->SQL->Add( query.c_str() );
 		for(
 			srxViewerForm->QueryParam->Open();
 			!srxViewerForm->QueryParam->Eof;
 			srxViewerForm->QueryParam->Next()
 		)
 		{
-			if( this->type.isEmpty() )
+			if( m_type.isEmpty() )
 			{
 				switch( srxViewerForm->QueryParam->Fields->Fields[0]->DataType )
 				{
 					case ftString:
-						this->type = "string";
+						m_type = "string";
 						break;
 					case ftSmallint:
 					case ftInteger:
 					case ftWord:
 					case ftAutoInc:
 					case ftLargeint:
-						this->type = "int";
+						m_type = "int";
 						break;
 					case ftFloat:
 					case ftCurrency	:
-						this->type = "float";
+						m_type = "float";
 						break;
 					case ftDate:
-						this->type = "date";
+						m_type = "date";
 						break;
 					case ftTime:
-						this->type = "time";
+						m_type = "time";
 						break;
 					case ftDateTime:
-						this->type = "date_time";
+						m_type = "date_time";
 						break;
 					case ftBoolean:
-						this->type = "boolean";
+						m_type = "boolean";
 						break;
 				}
 			}
@@ -255,18 +255,18 @@ void ParameterGui::createGui(
 			else
 				theQueryValue.displayValue = theQueryValue.paramValue;
 
-			theComboBox->Items->Add( (const char *)theQueryValue.displayValue );
-			paramQueryValues.addElement( theQueryValue );
+			m_theComboBox->Items->Add( theQueryValue.displayValue.c_str() );
+			m_paramQueryValues.addElement( theQueryValue );
 		}
-		theComboBox->ItemIndex = 0;
+		m_theComboBox->ItemIndex = 0;
 	}
 	else
 	{
-		theEditControl = new TEdit( scrollBox );
-		theEditControl->Parent = scrollBox;
-		theEditControl->Top = top;
-		theEditControl->Anchors.Clear();
-		theEditControl->Anchors << akLeft << akTop << akRight;
+		m_theEditControl = new TEdit( scrollBox );
+		m_theEditControl->Parent = scrollBox;
+		m_theEditControl->Top = top;
+		m_theEditControl->Anchors.Clear();
+		m_theEditControl->Anchors << akLeft << akTop << akRight;
 	}
 
 
@@ -276,90 +276,90 @@ void ParameterGui::createGui(
 //---------------------------------------------------------------------------
 void ParameterGui::moveControl( int width, int pos )
 {
-	if( theEditControl )
+	if( m_theEditControl )
 	{
-		theEditControl->Left = pos;
-		theEditControl->Width = width - pos - 8;
+		m_theEditControl->Left = pos;
+		m_theEditControl->Width = width - pos - 8;
 	}
-	else if( theComboBox )
+	else if( m_theComboBox )
 	{
-		theComboBox->Left = pos;
-		theComboBox->Width = width - pos - 8;
+		m_theComboBox->Left = pos;
+		m_theComboBox->Width = width - pos - 8;
 	}
-	else if( theDatePicker )
+	else if( m_theDatePicker )
 	{
-		theDatePicker->Left = pos;
-		if( theTimePicker )
+		m_theDatePicker->Left = pos;
+		if( m_theTimePicker )
 		{
-			theDatePicker->Width = width - pos - 8- theTimePicker->Width;
-			theTimePicker->Left =  width - theTimePicker->Width - 8;
+			m_theDatePicker->Width = width - pos - 8- m_theTimePicker->Width;
+			m_theTimePicker->Left =  width - m_theTimePicker->Width - 8;
 		}
 		else
-			theDatePicker->Width = width - pos - 8;
+			m_theDatePicker->Width = width - pos - 8;
 	}
-	else if( theTimePicker )
-		theTimePicker->Left = pos;
+	else if( m_theTimePicker )
+		m_theTimePicker->Left = pos;
 }
 //---------------------------------------------------------------------------
 void ParameterGui::setValue( const STRING &newValue )
 {
-	if( theEditControl )
-		theEditControl->Text = (const char *)newValue;
-	else if( theDatePicker && theTimePicker )
+	if( m_theEditControl )
+		m_theEditControl->Text = newValue.c_str();
+	else if( m_theDatePicker && m_theTimePicker )
 	{
 		try
 		{
-			TDateTime	val( (const char *)newValue, TDateTime::DateTime );
+			TDateTime	val( newValue.c_str(), TDateTime::DateTime );
 
-			theDatePicker->Date = val;
-			theTimePicker->Time = val;
+			m_theDatePicker->Date = val;
+			m_theTimePicker->Time = val;
 		}
 		catch( ... )
 		{
 		}
 	}
-	else if( theDatePicker )
+	else if( m_theDatePicker )
 	{
 		try
 		{
-			TDateTime	val( (const char *)newValue, TDateTime::Date );
-			theDatePicker->Date = val;
+			TDateTime	val( newValue.c_str(), TDateTime::Date );
+			m_theDatePicker->Date = val;
 		}
 		catch( ... )
 		{
 		}
 	}
-	else if( theTimePicker )
+	else if( m_theTimePicker )
 	{
 		try
 		{
-			TDateTime	val( (const char *)newValue, TDateTime::Time );
-			theTimePicker->Time = val;
+			TDateTime	val( newValue.c_str(), TDateTime::Time );
+			m_theTimePicker->Time = val;
 		}
 		catch( ... )
 		{
 		}
 	}
-	else if( theComboBox )
+	else if( m_theComboBox )
 	{
-		theComboBox->ItemIndex = theComboBox->Items->IndexOf( (const char *)newValue );
+		m_theComboBox->ItemIndex = m_theComboBox->Items->IndexOf( newValue.c_str() );
 	}
 }
 //---------------------------------------------------------------------------
 STRING ParameterGui::getValue( void )
 {
 	STRING value;
-	if( theEditControl )
-		value += theEditControl->Text.c_str();
-	if( theComboBox && theComboBox->ItemIndex >= 0 )
-		value += paramQueryValues[theComboBox->ItemIndex].paramValue;
-	if( theDatePicker )
-		value += theDatePicker->Date.DateString().c_str();
-	if( theTimePicker )
+	if( m_theEditControl )
+		value += m_theEditControl->Text.c_str();
+	if( m_theComboBox && m_theComboBox->ItemIndex >= 0 )
+		value += m_paramQueryValues[m_theComboBox->ItemIndex].paramValue;
+	if( m_theDatePicker )
+		value += m_theDatePicker->Date.DateString().c_str();
+	if( m_theTimePicker )
 	{
 		if( !value.isEmpty() )
 			value += ' ';
-		value += theTimePicker->Time.TimeString().c_str();
+		value += m_theTimePicker->Time.TimeString().c_str();
 	}
 
 	return value;
@@ -382,12 +382,12 @@ void ParamEditor::setLabelWidth( TScrollBox *scrollBox, int labelWidth )
 }
 //---------------------------------------------------------------------------
 __fastcall TsrxViewerForm::TsrxViewerForm(TComponent* Owner)
-	: TForm(Owner)
+	: TForm(Owner), m_theRoot(nullptr)
 {
-	theRoot = NULL;
 }
+
 //---------------------------------------------------------------------------
-void TsrxViewerForm::loadReport2( xml::Element *theRoot )
+void TsrxViewerForm::loadReport2( xml::Element *theRoot, const gak::STRING &reportFile )
 {
 	int					theColor;
 	TChartSeries    	*series;
@@ -407,32 +407,34 @@ void TsrxViewerForm::loadReport2( xml::Element *theRoot )
 		setup the report
 		================
 	*/
-	tableName = theRoot->getAttribute( "table_name" );
-	recordName = theRoot->getAttribute( "record_name" );
-	if( tableName.isEmpty() )
-		tableName = "data";
-	if( recordName.isEmpty() )
-		recordName = "entry";
+	m_tableName = theRoot->getAttribute( "table_name" );
+	m_recordName = theRoot->getAttribute( "record_name" );
+	if( m_tableName.isEmpty() )
+		m_tableName = "data";
+	if( m_recordName.isEmpty() )
+		m_recordName = "entry";
 
 	title = theRoot->getAttribute( "title" );
 	if( !title.isEmpty() )
-		Caption = Caption + " - " + (const char*)title;
-	this->title = title;
+		Caption = Caption + " - " + title.c_str();
+	else if( !reportFile.isEmpty() )
+		Caption = Caption + " - " + reportFile.c_str();
+	m_title = title;
 
 	/*
 		setup the chart
 		===============
 	*/
-	theChart = static_cast<xml::Any*>( theRoot->getElement( "chart" ) );
-	if( theChart )
+	m_theChart = static_cast<xml::Any*>( theRoot->getElement( "chart" ) );
+	if( m_theChart )
 	{
 		Chart->RemoveAllSeries();
 
-		defType = theChart->getAttribute( "type" );
-		defSubtype = theChart->getAttribute( "subtype" );
-		for( i=0; i<theChart->getNumObjects(); i++ )
+		defType = m_theChart->getAttribute( "type" );
+		defSubtype = m_theChart->getAttribute( "subtype" );
+		for( i=0; i<m_theChart->getNumObjects(); i++ )
 		{
-			theData = static_cast<xml::Any*>( theChart->getElement( i ) );
+			theData = static_cast<xml::Any*>( m_theChart->getElement( i ) );
 			if( theData && theData->getTag() == "data" )
 			{
 				type = theData->getAttribute( "type" );
@@ -487,7 +489,7 @@ void TsrxViewerForm::loadReport2( xml::Element *theRoot )
 				if( series )
 				{
 					title = theData->getAttribute( "title" );
-					series->Title = (const char *)title;
+					series->Title = title.c_str();
 
 					color = theData->getAttribute( "color" );
 					sscanf( color, "%x", &theColor );
@@ -540,58 +542,58 @@ void TsrxViewerForm::loadReport2( xml::Element *theRoot )
 			} // if( theData && theData->getTag() == "data" )
 		} // for( i=0; i<theChart->getNumObjects(); i++ )
 
-		title = theChart->getAttribute( "title" );
+		title = m_theChart->getAttribute( "title" );
 		if( title.isEmpty() )
-			title = this->title;
+			title = m_title;
 		if( title.isEmpty() )
 			Chart->Title->Visible = false;
 		else
 		{
 			Chart->Title->Text->Clear();
-			Chart->Title->Text->Add( (const char *)title );
+			Chart->Title->Text->Add( title.c_str() );
 		}
 
-		legend = theChart->getAttribute( "legend" );
+		legend = m_theChart->getAttribute( "legend" );
 		if( legend == "yes" )
 			Chart->Legend->Visible = true;
 		else if( legend == "no" )
 			Chart->Legend->Visible = false;
 
-		axisTitle = theChart->getAttribute( "leftAxisTitle" );
+		axisTitle = m_theChart->getAttribute( "leftAxisTitle" );
 		if( !axisTitle.isEmpty() )
-			Chart->LeftAxis->Title->Caption = (const char *)axisTitle;
+			Chart->LeftAxis->Title->Caption = axisTitle.c_str();
 
-		axisTitle = theChart->getAttribute( "rightAxisTitle" );
+		axisTitle = m_theChart->getAttribute( "rightAxisTitle" );
 		if( !axisTitle.isEmpty() )
-			Chart->RightAxis->Title->Caption = (const char *)axisTitle;
+			Chart->RightAxis->Title->Caption = axisTitle.c_str();
 
-		axisTitle = theChart->getAttribute( "bottomAxisTitle" );
+		axisTitle = m_theChart->getAttribute( "bottomAxisTitle" );
 		if( !axisTitle.isEmpty() )
-			Chart->BottomAxis->Title->Caption = (const char *)axisTitle;
+			Chart->BottomAxis->Title->Caption = axisTitle.c_str();
 
-		axisTitle = theChart->getAttribute( "topAxisTitle" );
+		axisTitle = m_theChart->getAttribute( "topAxisTitle" );
 		if( !axisTitle.isEmpty() )
-			Chart->TopAxis->Title->Caption = (const char *)axisTitle;
+			Chart->TopAxis->Title->Caption = axisTitle.c_str();
 
-		axisGrid = theChart->getAttribute( "leftAxisGrid" );
+		axisGrid = m_theChart->getAttribute( "leftAxisGrid" );
 		if( axisGrid=="yes" )
 			Chart->LeftAxis->Grid->Visible = true;
 		else if( axisGrid=="no" )
 			Chart->LeftAxis->Grid->Visible = false;
 
-		axisGrid = theChart->getAttribute( "rightAxisGrid" );
+		axisGrid = m_theChart->getAttribute( "rightAxisGrid" );
 		if( axisGrid=="yes" )
 			Chart->RightAxis->Grid->Visible = true;
 		else if( axisGrid=="no" )
 			Chart->RightAxis->Grid->Visible = false;
 
-		axisGrid = theChart->getAttribute( "bottomAxisGrid" );
+		axisGrid = m_theChart->getAttribute( "bottomAxisGrid" );
 		if( axisGrid=="yes" )
 			Chart->BottomAxis->Grid->Visible = true;
 		else if( axisGrid=="no" )
 			Chart->BottomAxis->Grid->Visible = false;
 
-		axisGrid = theChart->getAttribute( "topAxisGrid" );
+		axisGrid = m_theChart->getAttribute( "topAxisGrid" );
 		if( axisGrid=="yes" )
 			Chart->TopAxis->Grid->Visible = true;
 		else if( axisGrid=="no" )
@@ -612,14 +614,14 @@ void TsrxViewerForm::loadReport2( xml::Element *theRoot )
 		if( theSql )
 		{
 			STRING	sqlText = theSql->getValue( xml::PLAIN_MODE );
-			QueryMain->SQL->Add( (const char *)sqlText );
+			QueryMain->SQL->Add( sqlText.c_str() );
 			sqlFound = true;
 		}
 
 		/*
 			the SQL parameters
 		*/
-		this->params.clear();
+		m_params.clear();
 		xml::Element	*params = theQuery->getElement( "params" );
 		if( params )
 		{
@@ -648,24 +650,24 @@ void TsrxViewerForm::loadReport2( xml::Element *theRoot )
 
 					newRow.createGui(
 						ScrollBoxParams, label, value, type, query,
-						theParameterEditor.size()
+						m_theParameterEditor.size()
 					);
 
-					this->params.addElement( theParameter );
+					m_params.addElement( theParameter );
 
-					theParameterEditor.addElement( newRow );
+					m_theParameterEditor.addElement( newRow );
 				}
 				i++;
 			}
-			theParameterEditor.setLabelWidth( ScrollBoxParams, maxLen * 8 );
+			m_theParameterEditor.setLabelWidth( ScrollBoxParams, maxLen * 8 );
 
-			if( theParameterEditor.size() < NUM_VISIBLE_PARAMS )
-				ScrollBoxParams->Height = theParameterEditor.size() * PARAM_LINE_HEIGHT + 16;
+			if( m_theParameterEditor.size() < NUM_VISIBLE_PARAMS )
+				ScrollBoxParams->Height = m_theParameterEditor.size() * PARAM_LINE_HEIGHT + 16;
 			else
 				ScrollBoxParams->Height = NUM_VISIBLE_PARAMS * PARAM_LINE_HEIGHT + 16;
 		} // if( params )
 
-		if( !this->params.size() )
+		if( !m_params.size() )
 		{
 			ScrollBoxParams->Visible = false;
 			QueryMain->Open();
@@ -697,6 +699,7 @@ void __fastcall TsrxViewerForm::FormShow(TObject *)
 {
 	ArrayOfStrings	theCmdLineParams;
 	STRING		  	commandLine = (const char *)Application->Tag;
+	STRING			title;
 
 	ButtonStart->Enabled = false;
 	ButtonCSVexport->Enabled = false;
@@ -717,24 +720,27 @@ void __fastcall TsrxViewerForm::FormShow(TObject *)
 			userInfo = "";
 		}
 
-		userName = userInfo.getFirstToken( "/" );
-		password = userInfo.getNextToken();
+		m_userName = userInfo.getFirstToken( "/" );
+		m_password = userInfo.getNextToken();
 
 		xml::Parser		theParser( reportFile );
 		xml::Document	*theReportDoc = theParser.readFile( false );
 
-		DatabaseMain->AliasName = (const char *)dbAlias;
-		if( !userName.isEmpty() )
-			DatabaseMain->Params->Values["USER NAME"] = (const char *)userName;
-		if( !password.isEmpty() )
-			DatabaseMain->Params->Values["PASSWORD"] = (const char *)password;
+		DatabaseMain->AliasName = dbAlias.c_str();
+		if( !m_userName.isEmpty() )
+			DatabaseMain->Params->Values["USER NAME"] = m_userName.c_str();
+		if( !m_password.isEmpty() )
+			DatabaseMain->Params->Values["PASSWORD"] = m_password.c_str();
 
 		if( theReportDoc )
-			theRoot = theReportDoc->getElement( "sql_report" );
+		{
+			m_theRoot = theReportDoc->getElement( "sql_report" );
+			title = reportFile;
+		}
 	} // if( theCmdLineParams.size() == 2 )
 
-	if( theRoot )
-		loadReport2( theRoot );
+	if( m_theRoot )
+		loadReport2( m_theRoot, title );
 	else if( Application->Tag )
 	{
 		Application->MessageBox(
@@ -754,46 +760,46 @@ void __fastcall TsrxViewerForm::ButtonStartClick(TObject *)
 	AnsiString	value;
 	TDateTime	dateValue;
 
-	colWidths.clear();
+	m_colWidths.clear();
 	for( int i=0; i<DBGridMain->Columns->Count; i++ )
 	{
-		colWidths[i] = DBGridMain->Columns->Items[i]->Width;
+		m_colWidths[i] = DBGridMain->Columns->Items[i]->Width;
 	}
 
 	QueryMain->Close();
-	for( size_t i=0; i<params.size(); i++ )
+	for( size_t i=0; i<m_params.size(); i++ )
 	{
-		xml::Any *theParameter = params[i];
+		xml::Any *theParameter = m_params[i];
 		paramName = theParameter->getAttribute( "name" );
 		type = theParameter->getAttribute( "type" );
-		value = (const char *)theParameterEditor[i].getValue();
+		value = m_theParameterEditor[i].getValue().c_str();
 
 		if( type == "query" )
-			type = theParameterEditor[i].getType();
+			type = m_theParameterEditor[i].getType();
 
 		if( type == "int" )
-			QueryMain->ParamByName( (const char *)paramName )->AsInteger = value.ToInt();
+			QueryMain->ParamByName( paramName.c_str() )->AsInteger = value.ToInt();
 		else if( type == "float" )
-			QueryMain->ParamByName( (const char *)paramName )->AsFloat = value.ToDouble();
+			QueryMain->ParamByName( paramName.c_str() )->AsFloat = value.ToDouble();
 		else if( type == "time" )
 		{
 			TDateTime	newTime( value, TDateTime::Time );
-			QueryMain->ParamByName( (const char *)paramName )->AsTime = newTime;
+			QueryMain->ParamByName( paramName.c_str() )->AsTime = newTime;
 		}
 		else if( type == "date" )
 		{
 			TDateTime	newDate( value, TDateTime::Date );
-			QueryMain->ParamByName( (const char *)paramName )->AsDate = newDate;
+			QueryMain->ParamByName( paramName.c_str() )->AsDate = newDate;
 		}
 		else if( type == "date_time" )
 		{
 			TDateTime	newDateTime( value, TDateTime::DateTime );
-			QueryMain->ParamByName( (const char *)paramName )->AsDateTime = newDateTime;
+			QueryMain->ParamByName( paramName.c_str() )->AsDateTime = newDateTime;
 		}
 		else if( type == "string" )
-			QueryMain->ParamByName( (const char *)paramName )->AsString = value;
+			QueryMain->ParamByName( paramName.c_str() )->AsString = value;
 		else if( type == "boolean" )
-			QueryMain->ParamByName( (const char *)paramName )->AsString = value;
+			QueryMain->ParamByName( paramName.c_str() )->AsString = value;
 
 	} // for( size_t i=0; i<params.size(); i++ )
 
@@ -819,7 +825,7 @@ void __fastcall TsrxViewerForm::ButtonCSVexportClick(TObject *Sender)
 
 	destFile += "\\export.csv";
 
-	if( !QueryMain->Active || params.size() )
+	if( !QueryMain->Active || m_params.size() )
 		ButtonStartClick( Sender );
 
 	EXPORT_CSV_THREAD	*theThread = new EXPORT_CSV_THREAD( QueryMain, destFile );
@@ -846,11 +852,11 @@ void __fastcall TsrxViewerForm::ButtonXMLexportClick(TObject *Sender)
 
 	destFile += "\\export.xml";
 
-	if( !QueryMain->Active || params.size() )
+	if( !QueryMain->Active || m_params.size() )
 		ButtonStartClick( Sender );
 
 	EXPORT_XML_THREAD	*theThread = new EXPORT_XML_THREAD(
-		QueryMain, destFile, tableName, recordName
+		QueryMain, destFile, m_tableName, m_recordName
 	);
 	theThread->StartThread( false );
 }
@@ -861,10 +867,10 @@ void __fastcall TsrxViewerForm::ButtonXMLexportClick(TObject *Sender)
 void __fastcall TsrxViewerForm::DatabaseMainLogin(TDatabase *,
 	  TStrings *LoginParams)
 {
-	if( !userName.isEmpty() )
-		LoginParams->Values["USER NAME"] = (const char *)userName;
-	if( !password.isEmpty() )
-		LoginParams->Values["PASSWORD"] = (const char *)password;
+	if( !m_userName.isEmpty() )
+		LoginParams->Values["USER NAME"] = m_userName.c_str();
+	if( !m_password.isEmpty() )
+		LoginParams->Values["PASSWORD"] = m_password.c_str();
 }
 //---------------------------------------------------------------------------
 
@@ -926,7 +932,7 @@ void __fastcall TsrxViewerForm::FormClose(TObject *,
 			MB_OK|MB_ICONWARNING
 		);
 	rmdir(Session->PrivateDir.c_str());
-	theRoot = NULL;
+	m_theRoot = nullptr;
 
 	Action = caFree;
 }
@@ -969,12 +975,12 @@ void __fastcall TsrxViewerForm::QueryMainAfterOpen(TDataSet *)
 	}
 #endif
 
-	if( int(colWidths.size()) == DBGridMain->Columns->Count )
+	if( int(m_colWidths.size()) == DBGridMain->Columns->Count )
 	{
 		std::size_t i=0;
 		for(
-			ArrayOfInts::const_iterator it = colWidths.cbegin(),
-				endIT = colWidths.cend();
+			ArrayOfInts::const_iterator it = m_colWidths.cbegin(),
+				endIT = m_colWidths.cend();
 			it != endIT;
 			++it, ++i
 		)
@@ -988,7 +994,7 @@ void __fastcall TsrxViewerForm::QueryMainAfterOpen(TDataSet *)
 		int     sumWidthOK = 0;
 		int		numFields2Big = 0;
 
-		colWidths.clear();
+		m_colWidths.clear();
 		for( int i=0; i<DBGridMain->Columns->Count; i++ )
 		{
 			if( DBGridMain->Columns->Items[i]->Width >= gridWidth )
@@ -1013,7 +1019,7 @@ void __fastcall TsrxViewerForm::QueryMainAfterOpen(TDataSet *)
 	}
 
 	PageControl->Visible = true;
-	if( theChart && Chart->SeriesCount() )
+	if( m_theChart && Chart->SeriesCount() )
 	{
 		for( std::size_t i=0; i<(size_t)Chart->SeriesCount(); i++ )
 		{
@@ -1037,8 +1043,8 @@ void __fastcall TsrxViewerForm::QueryMainAfterOpen(TDataSet *)
 					theColor = colors[recNo%16];
 
 				series->Add(
-					QueryMain->FieldByName( (const char *)value )->AsFloat,
-					QueryMain->FieldByName( (const char *)label )->AsString,
+					QueryMain->FieldByName( value.c_str() )->AsFloat,
+					QueryMain->FieldByName( label.c_str() )->AsString,
 					(TColor)theColor
 				);
 			}
@@ -1081,15 +1087,15 @@ void TsrxViewerForm::loadReport(
 	xml::Element *theRoot
 )
 {
-	this->userName = userName;
-	this->password = password;
-	this->theRoot = theRoot;
+	m_userName = userName;
+	m_password = password;
+	m_theRoot = theRoot;
 
-	DatabaseMain->AliasName = (const char *)dbAlias;
+	DatabaseMain->AliasName = dbAlias.c_str();
 	if( !userName.isEmpty() )
-		DatabaseMain->Params->Values["USER NAME"] = (const char *)userName;
+		DatabaseMain->Params->Values["USER NAME"] = userName.c_str();
 	if( !password.isEmpty() )
-		DatabaseMain->Params->Values["PASSWORD"] = (const char *)password;
+		DatabaseMain->Params->Values["PASSWORD"] = password.c_str();
 	ShowModal();
 }
 //---------------------------------------------------------------------------

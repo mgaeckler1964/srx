@@ -47,7 +47,7 @@ object srxViewerForm: TsrxViewerForm
       Width = 258
       Height = 13
       Anchors = [akTop, akRight]
-      Caption = 'SRX Viewer 1.2 (c) 2009-2013 by Martin Gäckler - Linz'
+      Caption = 'SRX Viewer 1.2 (c) 2009-2026 by Martin Gäckler - Linz'
     end
     object ButtonStart: TButton
       Left = 8

@@ -6,7 +6,7 @@
 		Address:		Hofmannsthalweg 14, A-4030 Linz
 		Web:			https://www.gaeckler.at/
 
-		Copyright:		(c) 1988-2024 Martin Gäckler
+		Copyright:		(c) 2009-2026 Martin Gäckler
 
 		This program is free software: you can redistribute it and/or modify  
 		it under the terms of the GNU General Public License as published by  
@@ -15,7 +15,7 @@
 		You should have received a copy of the GNU General Public License 
 		along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-		THIS SOFTWARE IS PROVIDED BY Martin Gäckler, Austria, Linz ``AS IS''
+		THIS SOFTWARE IS PROVIDED BY Martin Gäckler, Linz, Austria ``AS IS''
 		AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
 		TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
 		PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR
@@ -64,21 +64,21 @@ struct ParameterQueryValue
 };
 class ParameterGui
 {
-	TLabel							*theLabel;
-	TEdit							*theEditControl;
-	TDateTimePicker 				*theDatePicker, *theTimePicker;
+	TLabel							*m_theLabel;
+	TEdit							*m_theEditControl;
+	TDateTimePicker 				*m_theDatePicker, *m_theTimePicker;
 
-	TComboBox						*theComboBox;
-	gak::Array<ParameterQueryValue>	paramQueryValues;
-	gak::STRING						type;
+	TComboBox						*m_theComboBox;
+	gak::Array<ParameterQueryValue>	m_paramQueryValues;
+	gak::STRING						m_type;
 
 	public:
 	ParameterGui()
 	{
-		theLabel = NULL;
-		theEditControl = NULL;
-		theDatePicker = theTimePicker = NULL;
-		theComboBox = NULL;
+		m_theLabel = NULL;
+		m_theEditControl = NULL;
+		m_theDatePicker = m_theTimePicker = NULL;
+		m_theComboBox = NULL;
 	}
 	void createGui(
 		TScrollBox *scrollBox,
@@ -91,7 +91,7 @@ class ParameterGui
 	gak::STRING getValue( void );
 	gak::STRING getType( void ) const
 	{
-		return type;
+		return m_type;
 	}
 };
 
@@ -139,15 +139,16 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall SaveClick(TObject *Sender);
 	void __fastcall DBGridMainDblClick(TObject *Sender);
 private:	// Anwender-Deklarationen
-	ParamEditor			theParameterEditor;
+	void loadReport2( gak::xml::Element *theRoot, const gak::STRING &reportFile );
 
-	void loadReport2( gak::xml::Element *theRoot );
-	gak::Array<gak::xml::Any*>	params;
-	gak::xml::Any				*theChart;
-	gak::STRING					userName, password,
-								title, tableName, recordName;
-	gak::xml::Element			*theRoot;
-	gak::ArrayOfInts			colWidths;
+	ParamEditor					m_theParameterEditor;
+
+	gak::Array<gak::xml::Any*>	m_params;
+	gak::xml::Any				*m_theChart;
+	gak::STRING					m_userName, m_password,
+								m_title, m_tableName, m_recordName;
+	gak::xml::Element			*m_theRoot;
+	gak::ArrayOfInts			m_colWidths;
 public:		// Anwender-Deklarationen
 	__fastcall TsrxViewerForm(TComponent* Owner);
 	void loadReport(
