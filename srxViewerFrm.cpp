@@ -697,8 +697,6 @@ void TsrxViewerForm::loadReport2( xml::Element *theRoot, const gak::STRING &repo
 //---------------------------------------------------------------------------
 void __fastcall TsrxViewerForm::FormShow(TObject *)
 {
-	ArrayOfStrings	theCmdLineParams;
-	STRING		  	commandLine = (const char *)Application->Tag;
 	STRING			title;
 
 	ButtonStart->Enabled = false;
@@ -706,11 +704,10 @@ void __fastcall TsrxViewerForm::FormShow(TObject *)
 	ButtonXMLexport->Enabled = false;
 	TabSheetChart->TabVisible = false;
 
-	theCmdLineParams.createElements( commandLine );
-	if( theCmdLineParams.size() == 2 )
+	if( ParamCount() == 2 )
 	{
-		T_STRING	dbInfo = theCmdLineParams[0];
-		STRING		reportFile = theCmdLineParams[1];
+		T_STRING	dbInfo = ParamStr(1).c_str();
+		STRING		reportFile = ParamStr(2).c_str();
 
 		T_STRING	userInfo = dbInfo.getFirstToken( "@" );
 		STRING		dbAlias = dbInfo.getNextToken();
@@ -737,7 +734,7 @@ void __fastcall TsrxViewerForm::FormShow(TObject *)
 			m_theRoot = theReportDoc->getElement( "sql_report" );
 			title = reportFile;
 		}
-	} // if( theCmdLineParams.size() == 2 )
+	} // if( ParamCount() == 2 )
 
 	if( m_theRoot )
 		loadReport2( m_theRoot, title );

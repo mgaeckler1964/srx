@@ -116,7 +116,7 @@ Item0=..\..\object\
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=
+RunParams=DOCMAN c:\cresd\source\DocMan\reports\Config.srxd
 HostApplication=
 RemoteHost=
 RemotePath=

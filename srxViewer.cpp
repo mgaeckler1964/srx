@@ -44,14 +44,7 @@ USELIB("..\..\Object\winlib\winlibBCB.lib");
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdLine, int)
 {
-	if( *cmdLine )
-		Application->Tag = (int)cmdLine;
-#ifdef _DEBUG
-	else
-		Application->Tag = (int)"KASSE \"..\\source\\kasse\\reports\\Kontenauszug.srxd\"";
-#endif
-
-	if( !Application->Tag )
+	if( !*cmdLine )
 	{
 		Application->MessageBox(
 			"There is no SQL-Report defined",
