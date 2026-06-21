@@ -874,18 +874,14 @@ void __fastcall TsrxViewerForm::DatabaseMainLogin(TDatabase *,
 
 void __fastcall TsrxViewerForm::FormCreate(TObject *)
 {
-	char		buffer[128];
-	const char	*temp;
-	AnsiString	privateDir = "C:\\";
+	gak::NumberBuffer	buffer;
+	AnsiString			privateDir = gak::nvl(getenv("TEMP"), "C:\\");
 
-	if( (temp=getenv("TEMP")) != NULL )
-		privateDir = temp;
 	if( privateDir[privateDir.Length()] != '\\' )
 		privateDir += '\\';
 
 	privateDir += "SRX_VIEWER";
-	sprintf( buffer, "%d", (int)GetCurrentProcessId() );
-	privateDir += buffer;
+	privateDir += formatNumberFast(&buffer, GetCurrentProcessId() );
 
 	mkdir( privateDir.c_str() );
 	Session->PrivateDir = privateDir;
