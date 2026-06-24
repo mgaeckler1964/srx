@@ -484,7 +484,7 @@ void TsrxViewerForm::loadReport2( xml::Element *theRoot, const gak::STRING &repo
 					}
 				}
 				else
-					series = NULL;
+					series = nullptr;
 
 				if( series )
 				{
@@ -492,8 +492,8 @@ void TsrxViewerForm::loadReport2( xml::Element *theRoot, const gak::STRING &repo
 					series->Title = title.c_str();
 
 					color = theData->getAttribute( "color" );
-					sscanf( color, "%x", &theColor );
-					series->SeriesColor = (TColor)theColor;
+					theColor = getValue<unsigned long>( color, 16 );
+					series->SeriesColor = TColor(theColor);
 
 					mark = theData->getAttribute( "mark" );
 					if( mark == "hidden" )

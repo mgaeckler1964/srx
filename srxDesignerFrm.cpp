@@ -824,13 +824,12 @@ void __fastcall TsrxDesignerForm::ButtonSelectColorClick(TObject *)
 
 	strncpy( buffer, EditChartDataColor->Text.c_str(), 6 );
 	buffer[6] = 0;
-	sscanf(  buffer, "%lX", &color );
-	ColorDialog->Color = (TColor)color;
+	color = getValue<unsigned long>( buffer, 16 );
+	ColorDialog->Color = TColor(color);
 
 	if( ColorDialog->Execute() )
 	{
-		sprintf( buffer, "%06lX", (long)ColorDialog->Color );
-		EditChartDataColor->Text = buffer;
+		EditChartDataColor->Text = formatBinary( (unsigned long)ColorDialog->Color, 16, 6, '0' );
 	}
 }
 //---------------------------------------------------------------------------
